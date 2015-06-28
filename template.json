@@ -1,6 +1,6 @@
 {
     "push": {
-      "name": "",
+      "name": "aooo/ao3",
       "vcs": true
     },
     "variables": {
@@ -16,6 +16,7 @@
                 "scripts/vmware.sh",
                 "scripts/vagrant.sh",
                 "scripts/dep.sh",
+                "scripts/elasticsearch_setup.sh",
                 "scripts/cleanup.sh",
                 "scripts/zerodisk.sh"
             ],
