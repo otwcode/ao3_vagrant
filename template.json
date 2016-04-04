@@ -34,8 +34,7 @@
             "artifact_type": "vagrant.box",
             "metadata": {
                 "created_at": "{{timestamp}}",
-                "provider": "virtualbox",
-                "version": "0.0.1"
+                "provider": "virtualbox"
             },
             "only": [
                 "virtualbox-iso"
