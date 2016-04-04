@@ -67,36 +67,20 @@
         }
     ],
     "post-processors": [
-        [
-            {
-                "keep_input_artifact": false,
-                "type": "vagrant"
+        {
+            "artifact": "aooo/autobuild",
+            "artifact_type": "vagrant.box",
+            "metadata": {
+                "created_at": "{{timestamp}}",
+                "provider": "virtualbox",
+                "version": "0.0.1"
             },
-            {
-                "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-                "artifact_type": "vagrant.box",
-                "metadata": {
-                    "provider": "vmware_desktop",
-                    "version": "0.0.1"
-                },
-                "only": [
-                    "vmware-iso"
-                ],
-                "type": "atlas"
-            },
-            {
-                "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-                "artifact_type": "vagrant.box",
-                "metadata": {
-                    "provider": "virtualbox",
-                    "version": "0.0.1"
-                },
-                "only": [
-                    "virtualbox-iso"
-                ],
-                "type": "atlas"
-            }
-        ]
+            "only": [
+                "virtualbox-iso"
+            ],
+            "token": "{{user `atlas_token`}}",
+            "type": "atlas"
+        }
     ],
     "provisioners": [
         {
@@ -128,8 +112,6 @@
         "vcs": true
     },
     "variables": {
-        "atlas_name": "{{env `ATLAS_NAME`}}",
-        "atlas_username": "{{env `ATLAS_USERNAME`}}",
         "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
         "aws_secret_key": "{{env `AWS_SECRET_KEY`}}"
     }
