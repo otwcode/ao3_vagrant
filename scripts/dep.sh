@@ -7,10 +7,11 @@ apt-get -y update
 apt-get -y install curl
 
 # You can install anything you need here.
-
+exit 0
 # Configure mysql
 echo 'mysql-server mysql-server/root_password password root'       | debconf-set-selections
 echo 'mysql-server mysql-server/root_password_again password root' | debconf-set-selections
+
 
 # Install necessary dependencies
 apt-get -y -q install  wget git tmux firefox xvfb vim atop
