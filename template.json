@@ -45,6 +45,11 @@
     ],
     "provisioners": [
         {
+            "override": {
+                "virtualbox-iso": {
+                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+                }
+            },
             "scripts": [
                 "scripts/base.sh",
                 "scripts/virtualbox.sh",
