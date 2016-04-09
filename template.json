@@ -69,8 +69,8 @@
             "type": "shell"
         },
         {
-            "type": "ansible-local",
-            "playbook_file": "ansible/base.yml"
+            "playbook_file": "ansible/base.yml",
+            "type": "ansible-local"
         },
         {
             "override": {
