@@ -46,28 +46,33 @@
     "provisioners": [
         {
             "override": {
+                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+            },
+            "scripts": [
+                "scripts/base.sh",
+                "scripts/virtualbox.sh",
+                "scripts/vagrant.sh",
+                "scripts/dep.sh",
+            ],
+            "type": "shell"
+        },
+        {
+             "type": "ansible-local",
+             "playbook_file": "ansible/base.yml"
+        },
+        {
+            "override": {
                 "virtualbox-iso": {
                     "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
                 }
             },
             "scripts": [
-                "scripts/base.sh",
-                "scripts/virtualbox.sh",
-                "scripts/vmware.sh",
-                "scripts/vagrant.sh",
                 "scripts/dep.sh",
                 "scripts/cleanup.sh",
                 "scripts/zerodisk.sh"
             ],
             "type": "shell"
         }
+
     ],
-    "push": {
-        "name": "aooo/ao3",
-        "vcs": true
-    },
-    "variables": {
-        "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
-        "aws_secret_key": "{{env `AWS_SECRET_KEY`}}"
-    }
 }
