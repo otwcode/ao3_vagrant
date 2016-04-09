@@ -1,6 +1,8 @@
 - name: Configure servers with ruby support
+  sudo: True
+  hosts: all
   roles:
-    - { role: rvm_io.rvm1-ruby, tags: ruby, sudo: True, rvm1_install_flags: '--auto-dotfiles --user-install', rvm1_install_path: '/home/{{ ansible_ssh_user }}/.rvm' }
+    - { role: rvm_io.rvm1-ruby, tags: ruby, rvm1_install_flags: '--auto-dotfiles --user-install', rvm1_install_path: '/home/{{ ansible_ssh_user }}/.rvm' }
 - name: install packages
   sudo: True
   hosts: all
