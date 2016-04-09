@@ -1,3 +1,6 @@
+- name: Configure servers with ruby support
+  roles:
+    - { role: rvm_io.rvm1-ruby, tags: ruby, sudo: True, rvm1_install_flags: '--auto-dotfiles --user-install', rvm1_install_path: '/home/{{ ansible_ssh_user }}/.rvm' }
 - name: install packages
   sudo: True
   hosts: all
@@ -6,3 +9,33 @@
       apt: pkg={{ item }}  update_cache=yes cache_valid_time=3600
       with_items:
         - a2ps
+        - wget
+        - git
+        - tmux
+        - firefox
+        - xvfb
+        - vim
+        - atop
+        - calibre
+        - memcached
+        - mysql-server
+        - libmysqlclient-dev
+        - nginx
+        - redis-server
+        - gawk
+        - libreadline6-dev
+        - zlib1g-dev
+        - libssl-dev
+        - libyaml-dev
+        - libsqlite3-dev
+        - sqlite3
+        - autoconf
+        - libgdbm-dev
+        - libncurses5-dev
+        - automake
+        - libtool
+        - bison
+        - pkg-config
+        - libffi-dev
+        - squid3
+        - curl
