@@ -1,4 +1,4 @@
-{ 
+{
     "builders": [
         {
             "boot_command": [
@@ -27,7 +27,7 @@
             "type": "virtualbox-iso",
             "virtualbox_version_file": ".vbox_version"
         }
-     ],
+    ],
     "post-processors": [
         {
             "artifact": "aooo/autobuild",
@@ -45,20 +45,17 @@
     ],
     "provisioners": [
         {
-            "override": {
-                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
-            },
             "scripts": [
                 "scripts/base.sh",
                 "scripts/virtualbox.sh",
                 "scripts/vagrant.sh",
-                "scripts/dep.sh",
+                "scripts/dep.sh"
             ],
             "type": "shell"
         },
         {
-             "type": "ansible-local",
-             "playbook_file": "ansible/base.yml"
+            "playbook_file": "ansible/base.yml",
+            "type": "ansible-local"
         },
         {
             "override": {
@@ -73,6 +70,5 @@
             ],
             "type": "shell"
         }
-
-    ],
+    ]
 }
