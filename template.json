@@ -69,7 +69,6 @@
             "type": "shell"
         },
         {
-            "playbook_dir": "ansible",
             "type": "ansible-local",
             "playbook_file": "ansible/base.yml"
         },
