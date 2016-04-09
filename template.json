@@ -51,7 +51,6 @@
             "token": "{{user `atlas_token`}}",
             "type": "atlas"
         }
-      }
     ]
   ],
     "provisioners": [
