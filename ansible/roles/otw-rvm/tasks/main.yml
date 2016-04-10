@@ -1,0 +1,20 @@
+---
+# tasks file for otw-rvm
+- name: Update bashrc for rvm for vagrant user
+  lineinfile:
+    dest=/home/{{otw_rvm_user}}/.bashrc
+    line="[[ -s $HOME/.rvm/scripts/rvm ]] && . $HOME/.rvm/scripts/rvm"
+    regexp="^\[\[ -s \\$HOME/\.rvm/scripts/rvm"
+    owner=vagrant
+    state=present
+    insertafter=EOF
+    create=True
+- name: Make directories
+  file: dest=/home/vagrant/{{item}}  mode=755 owner=vagrant group=vagrant state=directory
+  with_items:
+    - bin
+- name: copy bin files
+  copy: src={{item}} dest=/home/vagrant/bin/ mode=0755 owner=vagrant group=vagrant 
+  with_items:
+    - install_gems
+    - reset_rvm

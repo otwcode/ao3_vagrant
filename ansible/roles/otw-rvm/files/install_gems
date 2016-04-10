@@ -1,0 +1,9 @@
+#!/bin/bash
+rvm --default use 2.0.0-p648
+rvm gemset use global
+gem install rvm-capistrano
+gem install bundler
+gem install god
+gem install unicorn
+gem install mailcatcher
+gem install rake

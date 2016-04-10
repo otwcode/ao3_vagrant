@@ -1,0 +1,4 @@
+---
+# defaults file for otw-rvm
+otw_rvm_user:
+  - 'vagrant'
