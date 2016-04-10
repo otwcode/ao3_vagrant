@@ -22,4 +22,3 @@
   shell: bin/reset_perl
   become: yes
   become_user: vagrant
-
