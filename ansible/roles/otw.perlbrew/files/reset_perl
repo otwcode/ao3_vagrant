@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 export PERLBREW_ROOT=~/.perlbrew
 rm -rf $PERLBREW_ROOT
 /usr/bin/curl -kL http://install.perlbrew.pl | bash
