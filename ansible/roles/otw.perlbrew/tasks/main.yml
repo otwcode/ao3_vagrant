@@ -19,6 +19,6 @@
   with_items:
     - reset_perl
 - name: Run install scripts
-  shell: bin/reset_perl
+  shell: /home/vagrant/bin/bin/reset_perl
   become: yes
   become_user: vagrant

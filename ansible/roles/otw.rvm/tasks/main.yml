@@ -19,6 +19,6 @@
     - install_gems
     - reset_rvm
 - name: Run install scripts
-  shell: bin/install_gems
+  shell: /home/vagrant/bin/install_gems
   become: yes
   become_user: vagrant
