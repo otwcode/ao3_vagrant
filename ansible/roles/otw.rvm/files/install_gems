@@ -1,4 +1,5 @@
 #!/bin/bash
+[[ -s $HOME/.rvm/scripts/rvm ]] && . $HOME/.rvm/scripts/rvm
 rvm --default use 2.0.0-p648
 rvm gemset use global
 gem install rvm-capistrano
