@@ -1,0 +1,4 @@
+---
+# defaults file for otw-rvm
+otw_perlbrew_user:
+  - 'vagrant'

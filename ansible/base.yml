@@ -3,7 +3,8 @@
   hosts: all
   roles:
     - { role: rvm_io.rvm1-ruby, rvm1_rubies: 'ruby-2.0.0-p648', rvm1_user: 'vagrant', rvm1_install_flags: '--auto-dotfiles --user-install', rvm1_install_path: '/home/vagrant/.rvm' }
-    - { role: otw-rvm }
+    - { role: otw.rvm }
+    - { role: otw.perlbrew }
 
 - name: install packages
   sudo: True
