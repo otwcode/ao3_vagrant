@@ -2,7 +2,7 @@
 # tasks file for otw-rvm
 - name: Update bashrc for rvm for vagrant user
   lineinfile:
-    dest=/home/{{otw_rvm_user}}/.bashrc
+    dest=/home/vagrant/.bashrc
     line="[[ -s $HOME/.rvm/scripts/rvm ]] && . $HOME/.rvm/scripts/rvm"
     regexp="^\[\[ -s \\$HOME/\.rvm/scripts/rvm"
     owner=vagrant

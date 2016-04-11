@@ -3,7 +3,7 @@
 # tasks file for otw-rvm
 - name: Update bashrc for rvm for vagrant user
   lineinfile:
-    dest=/home/{{otw_perlbrew_user}}/.bashrc
+    dest=/home/vagrant/.bashrc
     line="[[ -s $HOME/.perlbrew/etc/bashrc ]] && . $HOME/.perlbrew/etc/bashrc" 
     regexp="^\[\[ -s \\$HOME/\.perlbrew/etc/bashrc"
     owner=vagrant
