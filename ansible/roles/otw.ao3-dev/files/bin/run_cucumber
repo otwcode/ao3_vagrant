@@ -1,0 +1,55 @@
+#!/bin/sh
+cd ~/app/current
+cp config/redis-cucumber.conf.example config/redis-cucumber.conf
+RAILS_ENV=test
+
+
+echo "Resetting database"
+mysql -e "drop database vagrant_test  "
+mysql -e "create  database vagrant_test DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci ;"
+bundle exec rake db:schema:load 
+bundle exec rake db:migrate
+
+echo -n copying config
+for i in database.yml  local.yml  redis.yml ;  do
+    echo -n " $i"
+    cp ~/conf/$i ./config
+done
+echo 
+echo "Running bundle install"
+bundle install
+echo "running cucumber features"
+rm log/test.log  
+sudo /etc/init.d/memcached restart
+#bundle exec rspec ./spec
+#bundle exec cucumber features/tags_and_wrangling/wrangling_guidelines.feature
+bundle exec cucumber features/works/work_lock.feature
+exit 0
+#bundle exec rspec ./spec/api/api_spec.rb
+#bundle exec cucumber features/admins/admin_invitations.feature:7
+#bundle exec cucumber features/importing/archivist.feature
+#bundle exec cucumber features/admins/admin_manage_users.feature
+#bundle exec cucumber  features/admins/admin_invitations.feature:17
+echo "Resetting database"
+mysql -e "drop database vagrant_test  "
+mysql -e "create  database vagrant_test "
+#bundle exec rake db:schema:load
+#bundle exec rake db:migrate
+#bundle exec cucumber -f progress -r features features/admins/admin_manage_users.feature:254
+#bundle exec cucumber -f progress -r features features/bookmarks
+#bundle exec cucumber -f progress -r features features/cassette_library
+#bundle exec cucumber -f progress -r features features/collections
+#bundle exec cucumber -f progress -r features features/comments_and_kudos
+#bundle exec cucumber -f progress -r features features/fixtures
+#bundle exec cucumber -f progress -r features features/gift_exchanges
+#bundle exec cucumber -f progress -r features features/importing
+#bundle exec cucumber -f progress -r features features/other_a
+#bundle exec cucumber -f progress -r features features/other_b
+#bundle exec cucumber -f progress -r features features/prompt_memes_a
+#bundle exec cucumber -f progress -r features features/prompt_memes_b
+#bundle exec cucumber -f progress -r features features/prompt_memes_c
+#bundle exec cucumber -f progress -r features features/step_definitions
+#bundle exec cucumber -f progress -r features features/support
+#bundle exec cucumber -f progress -r features features/tags_and_wrangling
+#bundle exec cucumber -f progress -r features features/users
+#bundle exec cucumber -f progress -r features features/works

@@ -1,0 +1,26 @@
+---
+# tasks file for otw.ao3-dev
+- name: Make directories
+  file: dest=/home/vagrant/{{item}}  mode=755 owner=vagrant group=vagrant state=directory
+  with_items:
+    - app
+    - app/releases
+- name: checkout example
+  git: repo=https://github.com/otwcode/otwarchive.git dest=/home/vagrant/app/releases owner=vagrant group=vagrant 
+- name: copy bin files
+  copy: src={{item}} dest=/home/vagrant/ mode=0755 owner=vagrant group=vagrant 
+  with_items:
+    - bin/kill_my_unicorns
+    - bin/kill_my_workers
+    - bin/reload_elastic
+    - bin/run_cucumber
+    - bin/seed
+    - bin/start_mailcatcher
+    - bin/start_my_unicorns
+    - bin/start_my_workers
+    - conf/database.yml
+    - conf/local.yml
+    - conf/redis-cucumber.conf
+    - conf/redis.yml
+    - conf/skins.dump
+    - conf/unicorn.rb
