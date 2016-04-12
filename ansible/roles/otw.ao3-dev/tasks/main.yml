@@ -6,7 +6,9 @@
     - app
     - app/releases
 - name: checkout example
-  git: repo=https://github.com/otwcode/otwarchive.git dest=/home/vagrant/app/releases owner=vagrant group=vagrant 
+  git: repo=https://github.com/otwcode/otwarchive.git dest=/home/vagrant/app/releases
+  become: yes
+  become_user: vagrant
 - name: copy bin files
   copy: src={{item}} dest=/home/vagrant/ mode=0755 owner=vagrant group=vagrant 
   with_items:
