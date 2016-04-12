@@ -3,15 +3,20 @@
 - name: Make directories
   file: dest=/home/vagrant/{{item}}  mode=755 owner=vagrant group=vagrant state=directory
   with_items:
+    - conf
+    - bin
     - app
     - app/releases
+    - app/releases/example
+    - log
 - name: checkout example
-  git: repo=https://github.com/otwcode/otwarchive.git dest=/home/vagrant/app/releases
+  git: repo=https://github.com/otwcode/otwarchive.git dest=/home/vagrant/app/releases/example
   become: yes
   become_user: vagrant
 - name: copy bin files
-  copy: src={{item}} dest=/home/vagrant/ mode=0755 owner=vagrant group=vagrant 
+  copy: src={{item}} dest=/home/vagrant/bin mode=0755 owner=vagrant group=vagrant 
   with_items:
+    - bin/reset_app
     - bin/kill_my_unicorns
     - bin/kill_my_workers
     - bin/reload_elastic
@@ -20,9 +25,26 @@
     - bin/start_mailcatcher
     - bin/start_my_unicorns
     - bin/start_my_workers
+- name: copy art
+  copy: src={{item}} dest=/usr/local/etc/art mode=0755 owner=vagrant group=vagrant
+  with_items:
+    - unicorn_1
+    - unicorn_2
+    - unicorn_3
+    - unicorn_4
+    - unicorn_5
+    - unicorn_6
+    - unicorn_7
+    - unicorn_8
+    - unicorn_9
+    - unicorn_10
+    - unicorn_11
+    - unicorn_12
+- name: copy conf files
+  copy: src={{item}} dest=/home/vagrant/conf mode=0755 owner=vagrant group=vagrant
+  with_items:
     - conf/database.yml
     - conf/local.yml
     - conf/redis-cucumber.conf
     - conf/redis.yml
-    - conf/skins.dump
     - conf/unicorn.rb

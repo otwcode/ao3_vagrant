@@ -1,0 +1,9 @@
+#!/bin/sh
+cd /home/vagrant/app/releases/example
+ln -s /home/vagrant/app/releases/example "$HOME/app/current"
+for i in database.yml  local.yml  redis.yml ;  do
+  echo -n " $i"
+  cp ~/conf/$i ./config
+done
+bundle install
+rake db:create    
