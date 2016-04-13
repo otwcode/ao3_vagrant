@@ -40,7 +40,6 @@
   sudo: True
   hosts: all
   roles:
-    - { role: playlist.elasticsearch, elasticsearch_state: present, elasticsearch_version: '0.90.12' }
     - { role: rvm_io.rvm1-ruby, rvm1_rubies: 'ruby-2.0.0-p648', rvm1_user: 'vagrant', rvm1_install_flags: '--auto-dotfiles --user-install', rvm1_install_path: '/home/vagrant/.rvm' }
     - { role: otw.rvm }
     - { role: otw.perlbrew }
