@@ -1,0 +1,34 @@
+---
+- name: add elasticsearch key
+  apt_key: >
+    url=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+    id={{ elasticsearch_key_id }}
+    state=present
+
+- name: add elasticsearch repository
+  apt_repository: >
+    repo='deb {{ elasticsearch_repository }}/{{ elasticsearch_version }}/debian stable main'
+    state=present
+    update_cache=yes
+
+- name: install elasticsearch
+  apt: pkg=elasticsearch state={{ elasticsearch_state }} install_recommends=False
+
+- name: divert original configs
+  command: dpkg-divert --quiet --local --divert {{ elasticsearch_path_conf }}/{{ item }}.yml.dpkg-divert --rename {{ elasticsearch_path_conf }}/{{ item }}.yml creates={{ elasticsearch_path_conf }}/{{ item }}.yml.dpkg-divert
+  with_items:
+    - elasticsearch
+    - logging
+
+- name: configure elasticsearch
+  template: src={{ item[1:] }}.j2 dest={{ item }}
+            owner=root group=root mode=0644
+  with_items:
+    - '/etc/default/elasticsearch'
+    - '{{ elasticsearch_path_conf }}/elasticsearch.yml'
+    - '{{ elasticsearch_path_conf }}/logging.yml'
+  notify:
+    - restart elasticsearch
+
+- name: start elasticsearch
+  service: name=elasticsearch state=started enabled=True

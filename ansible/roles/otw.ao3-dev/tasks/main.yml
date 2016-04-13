@@ -28,18 +28,18 @@
 - name: copy art
   copy: src={{item}} dest=/usr/local/etc/art mode=0755 owner=vagrant group=vagrant
   with_items:
-    - unicorn_1
-    - unicorn_2
-    - unicorn_3
-    - unicorn_4
-    - unicorn_5
-    - unicorn_6
-    - unicorn_7
-    - unicorn_8
-    - unicorn_9
-    - unicorn_10
-    - unicorn_11
-    - unicorn_12
+    - art/unicorn_1
+    - art/unicorn_2
+    - art/unicorn_3
+    - art/unicorn_4
+    - art/unicorn_5
+    - art/unicorn_6
+    - art/unicorn_7
+    - art/unicorn_8
+    - art/unicorn_9
+    - art/unicorn_10
+    - art/unicorn_11
+    - art/unicorn_12
 - name: copy conf files
   copy: src={{item}} dest=/home/vagrant/conf mode=0755 owner=vagrant group=vagrant
   with_items:
