@@ -37,9 +37,9 @@ elasticsearch_path: {
 
 # forcing ipv4 for everything right now
 elasticsearch_network: {
-  host: "{{ ansible_eth1.ipv4.address }}", # bind everything to service net
+  host: "{{ ansible_eth0.ipv4.address }}", # bind everything to service net
   http_host: "{{ ansible_lo.ipv4.address }}", # prefer localhost for http interfaces
-  unicast_interface: 'eth1', # this will drive lookups of eth1's ipv4 addr for the host group
+  unicast_interface: 'eth0', # this will drive lookups of eth0's ipv4 addr for the host group
 }
 
 # override this to supply some default credentials for basic auth over https

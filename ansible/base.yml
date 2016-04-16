@@ -40,7 +40,7 @@
   sudo: True
   hosts: all
   roles:
-    - { role: Rackspace_Automation.elasticsearch, elasticsearch_cluster_name: 'ao3', host: "localhost" }
+    - { role: Rackspace_Automation.elasticsearch, elasticsearch_cluster_name: 'ao3' }
     - { role: rvm_io.rvm1-ruby, rvm1_rubies: 'ruby-2.0.0-p648', rvm1_user: 'vagrant', rvm1_install_flags: '--auto-dotfiles --user-install', rvm1_install_path: '/home/vagrant/.rvm' }
     - { role: otw.rvm }
     - { role: otw.perlbrew }
