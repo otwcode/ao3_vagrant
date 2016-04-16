@@ -29,9 +29,9 @@
 #  notify: restart elasticsearch
 
 # needs restart
-- name: copy elasticsearch logging.yml template over to host
-  template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml mode=0644 owner=root group=root
-  notify: restart elasticsearch
+#- name: copy elasticsearch logging.yml template over to host
+#  template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml mode=0644 owner=root group=root
+#  notify: restart elasticsearch
 
 # Install Other Generic Plugins
 - include: plugins.yml
