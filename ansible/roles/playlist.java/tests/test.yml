@@ -1,8 +1,0 @@
----
-- hosts: all
-  sudo: yes
-  vars:
-    - redis_test_environment: true
-  roles:
-  - role
-

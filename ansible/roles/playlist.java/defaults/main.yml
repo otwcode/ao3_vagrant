@@ -1,4 +1,0 @@
----
-java_packages:
-  - openjdk-7-jre
-java_cleanup: true
