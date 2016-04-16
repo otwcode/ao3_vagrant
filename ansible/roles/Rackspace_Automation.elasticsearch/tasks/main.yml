@@ -1,0 +1,44 @@
+---
+# OS specific package installations
+- name: add OS specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+# Redhat specific package installations
+- include: RedHat.yml
+  when: ansible_os_family == "RedHat"
+
+# Ubuntu specific package installations
+- include: Debian.yml
+  when: ansible_os_family == "Debian"
+
+# do iptables before elasticsearch, or ES will be blocked for a bit
+# and this makes discovery get all horked up
+- include: iptables.yml
+
+# do the nginx work in a separate file
+- include: nginx.yml
+
+# needs restart
+- name: copy elasticsearch /etc/sysconfig or /etc/default template over to host
+  template: src=elasticsearch.j2 dest={{ elasticsearch_defaults_file }} mode=0644 owner=root group=root
+  notify: restart elasticsearch
+
+# needs restart
+- name: copy elasticsearch.yml template over to host
+  template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml mode=0644 owner=root group=root
+  notify: restart elasticsearch
+
+# needs restart
+- name: copy elasticsearch logging.yml template over to host
+  template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml mode=0644 owner=root group=root
+  notify: restart elasticsearch
+
+# Install Other Generic Plugins
+- include: plugins.yml
+  when: (elasticsearch_plugins is defined)
+
+# just verify it's running, enabled, started, but don't restart
+- name: ensure elasticsearch service is running
+  service: name=elasticsearch enabled=yes state=started
+  notify: verify elasticsearch
+

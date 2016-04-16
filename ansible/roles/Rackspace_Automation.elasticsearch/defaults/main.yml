@@ -1,0 +1,54 @@
+---
+# Advice is not to name a cluster 'elasticsearch' by default, 
+# as any new nodes with a default config would join it
+elasticsearch_cluster_name: 'rackspace-elasticsearch'
+elasticsearch_node: {
+  master: true,
+  data: true,
+  name: '{{ ansible_fqdn }}',
+  mandatory_plugins: "paramedic,head",
+
+  # discovery.zen.minimum_master_nodes to at least N/2+1
+  minimum_masters: "{{ (groups['elasticsearch']|count//2)+1|int }}"
+}
+
+elasticsearch_index: {
+  number_of_shards: 5,
+  number_of_replicas: 1
+}
+
+elasticsearch_bootstrap: {
+  mlockall: true,
+
+  # Use 40% of memory for heap, ES will also use large amount of
+  # direct memory allocation, hopefully ending with a total around 50%
+  # of the whole available system memory 
+  heapsize: '{{ (ansible_memtotal_mb*0.4)|round|int }}m', # round returns float, use int filter
+}
+
+elasticsearch_path: {
+  home: "/usr/share/elasticsearch", # can't change this without changing packaging
+  conf: "/etc/elasticsearch",
+  work: "/tmp/elasticsearch",
+  logs: "/var/log/elasticsearch",
+  data: "/var/lib/elasticsearch",
+  plugins: "/usr/share/elasticsearch/plugins"
+}
+
+# forcing ipv4 for everything right now
+elasticsearch_network: {
+  host: "{{ ansible_eth1.ipv4.address }}", # bind everything to service net
+  http_host: "{{ ansible_lo.ipv4.address }}", # prefer localhost for http interfaces
+  unicast_interface: 'eth1', # this will drive lookups of eth1's ipv4 addr for the host group
+}
+
+# override this to supply some default credentials for basic auth over https
+# elasticsearch_credentials:
+    # - { username: 'rack', password: 'password' } 
+
+# { fetch_path: '<plugin path for download.elasticsearch.org>', name: '<elasticsearch internal name>', url: '<optional plugin url>' }
+# maps to: bin/plugin -install <fetch path> -url <plugin url>  # installs to /usr/share/elasticsearch/plugins/<name>
+elasticsearch_plugins:
+  - { fetch_path: 'karmi/elasticsearch-paramedic', name: 'paramedic' }
+  - { fetch_path: 'mobz/elasticsearch-head', name: 'head' }
+  - { fetch_path: 'lukas-vlcek/bigdesk/2.2.3', name: 'bigdesk' } # lock bigdesk, newer versions don't support older ES

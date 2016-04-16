@@ -1,0 +1,20 @@
+- name: installing elasticsearch plugins by name
+  shell: bin/plugin -install {{ item.fetch_path }} chdir={{ elasticsearch_path.home }} creates={{ elasticsearch_path.plugins }}/{{item.name}}
+  when: item.url is not defined
+  with_items: elasticsearch_plugins
+  notify: restart elasticsearch
+#  ignore_errors: yes # need this is creates= is missing/wrong above
+
+- name: installing elasticsearch plugins by url
+  shell: bin/plugin -install {{ item.fetch_path }} -url {{ item.url }} chdir={{ elasticsearch_path.home }} creates={{ elasticsearch_path.plugins }}/{{item.name}}
+  when: item.url is defined
+  with_items: elasticsearch_plugins
+  notify: restart elasticsearch
+#  ignore_errors: yes # see note above in 'by name' ignore_errors
+
+# Fix permissions
+- name: fix elasticsearch plugin file/directory permissions
+  file:
+    path="{{ elasticsearch_path.plugins }}" state=directory
+    owner=elasticsearch group=elasticsearch
+    recurse=yes

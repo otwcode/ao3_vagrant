@@ -1,0 +1,38 @@
+- name: create ssl directory
+  file: path={{ elasticsearch_nginx_dir.ssl }} state=directory mode=0755 owner=root group=root
+
+- name: create self-signed SSL cert
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Texas/L=San Antonio/O=Rackspace/CN={{ elasticsearch_nginx.hostname }}" -days 3650 -keyout {{ elasticsearch_nginx_dir.ssl }}/{{ elasticsearch_nginx.hostname }}.key -out {{ elasticsearch_nginx_dir.ssl }}/{{ elasticsearch_nginx.hostname }}.crt -extensions v3_ca creates={{ elasticsearch_nginx_dir.ssl }}/{{ elasticsearch_nginx.hostname }}.crt
+  notify: restart nginx
+
+- name: create nginx htpasswd files
+  htpasswd: path=/etc/nginx/conf.d/{{ elasticsearch_nginx.hostname }}.htpasswd name={{ item.username }} password={{ item.password }} owner={{ elasticsearch_nginx.user }} group={{ elasticsearch_nginx.group }} mode=0640
+  with_items: elasticsearch_credentials
+  when: elasticsearch_credentials is defined
+  notify: restart nginx
+
+- name: remove default nginx site
+  action: file path={{ elasticsearch_nginx_dir.confd }}/default state=absent
+  notify: restart nginx
+  when: ansible_os_family  == "RedHat"
+
+- name: copy nginx config file over to host
+  template: src=nginx.conf.j2 dest={{ elasticsearch_nginx_dir.confd }}/elasticsearch.conf mode=0644 owner=root group=root
+  notify: restart nginx
+  when: ansible_os_family  == "RedHat"
+
+- name: remove default nginx site
+  action: file path={{ elasticsearch_nginx_dir.sites_enabled }}/default state=absent
+  notify: restart nginx
+  when: ansible_os_family  == "Debian"
+
+- name: copy nginx config file over to host
+  template: src=nginx.conf.j2 dest={{ elasticsearch_nginx_dir.sites_available }}/elasticsearch.conf mode=0644 owner=root group=root
+  notify: restart nginx
+  when: ansible_os_family  == "Debian"
+
+- name: ensure symlink for nginx config
+  action: file src={{ elasticsearch_nginx_dir.sites_available }}/elasticsearch.conf dest={{ elasticsearch_nginx_dir.sites_enabled }}/elasticsearch.conf state=link
+  notify: restart nginx
+  when: ansible_os_family  == "Debian"
+

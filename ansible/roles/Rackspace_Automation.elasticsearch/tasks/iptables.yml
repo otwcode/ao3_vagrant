@@ -1,0 +1,19 @@
+# hostvars[host]['ansible_'+elasticsearch_network.unicast_interface]['ipv4']['address']
+# /etc/sysconfig/iptables on RHEL
+- name: block iptables port 9300 for elasticsearch for all hosts
+  lineinfile: dest={{ iptables_location }}
+              regexp="^-A INPUT -p tcp -m tcp --dport 9300 -j DROP$"
+              line="-A INPUT -p tcp -m tcp --dport 9300 -j DROP"
+              insertbefore="^:INPUT ACCEPT \[\d*:\d*\]$"
+  notify:
+    - restart iptables
+
+- name: open iptables port 9300 for elasticsearch only for the cluster
+  lineinfile: dest={{ iptables_location }}
+              regexp="^-A INPUT -p tcp -m tcp --dport 9300 -s {{hostvars[item]['ansible_'+elasticsearch_network.unicast_interface]['ipv4']['address']}} -j ACCEPT$"
+              line="-A INPUT -p tcp -m tcp --dport 9300 -s {{hostvars[item]['ansible_'+elasticsearch_network.unicast_interface]['ipv4']['address']}} -j ACCEPT"
+              insertbefore="^-A INPUT -p tcp -m tcp --dport 9300 -j DROP$"
+  with_items: groups['elasticsearch']
+  notify:
+    - restart iptables
+

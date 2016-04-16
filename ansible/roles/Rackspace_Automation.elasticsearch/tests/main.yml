@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  connection: local
+  roles:
+    - Rackspace_Automation.elasticsearch

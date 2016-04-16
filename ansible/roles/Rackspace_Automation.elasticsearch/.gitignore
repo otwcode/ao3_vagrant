@@ -1,0 +1,5 @@
+vagrant_ansible_inventory*
+vagrant-rackspace.rc.local
+inventory-all
+.vagrant
+roles

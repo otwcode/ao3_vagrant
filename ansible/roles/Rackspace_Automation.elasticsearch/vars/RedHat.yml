@@ -1,0 +1,27 @@
+---
+redhat_packages:
+  - java-1.7.0-openjdk
+  - elasticsearch
+  - curl
+  - iptables
+  - nginx
+  - python-passlib
+
+elasticsearch_defaults_file: '/etc/sysconfig/elasticsearch'
+
+elasticsearch_nginx_dir: {
+  confd: '/etc/nginx/conf.d',
+  ssl: '/etc/nginx/ssl'
+}
+
+
+elasticsearch_nginx: {
+  user: 'root',
+  group: 'root',
+  hostname: "{{ elasticsearch_cluster_name }}",
+}
+
+
+iptables_location: '/etc/sysconfig/iptables'
+iptables_name: 'iptables'
+

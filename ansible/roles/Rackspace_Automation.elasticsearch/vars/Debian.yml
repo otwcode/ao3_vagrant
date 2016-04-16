@@ -1,0 +1,27 @@
+---
+debian_packages:
+  - openjdk-7-jre-headless
+  - elasticsearch
+  - curl
+  - iptables-persistent
+  - python-passlib
+  - nginx
+
+requirements:
+  - python-pycurl
+
+elasticsearch_defaults_file: '/etc/default/elasticsearch'
+elasticsearch_nginx_dir: {
+  sites_available: '/etc/nginx/sites-available',
+  sites_enabled: '/etc/nginx/sites-enabled',
+  ssl: '/etc/nginx/ssl'
+}
+
+iptables_location: '/etc/iptables/rules.v4'
+iptables_name: 'iptables-persistent'
+
+elasticsearch_nginx: {
+  user: 'root',
+  group: 'www-data',
+  hostname: "{{ elasticsearch_cluster_name }}",
+}
