@@ -1,7 +1,8 @@
 ---
 # Advice is not to name a cluster 'elasticsearch' by default, 
 # as any new nodes with a default config would join it
-elasticsearch_cluster_name: 'rackspace-elasticsearch'
+elasticsearch: 'qwertyu'
+elasticsearch_cluster_name: 'ao3-elasticsearch'
 elasticsearch_node: {
   master: true,
   data: true,
