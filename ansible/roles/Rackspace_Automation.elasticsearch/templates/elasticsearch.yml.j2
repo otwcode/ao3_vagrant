@@ -1,3 +1,40 @@
-########################################################################################################################
-# {{ ansible_managed }}
-########################################################################################################################
+cluster.name: "{{ elasticsearch_cluster_name }}"
+node.name: "{{ elasticsearch_node.name }}"
+
+{% if elasticsearch_node.master %}
+node.master: true # YAML true is 'True', we need 'true' (what a pain)
+{% else %}
+node.master: false
+
+{% if elasticsearch_node.data %} 
+node.data: true
+{% else %}
+node.data: false
+{% endif %}
+
+index.number_of_shards: {{ elasticsearch_index.number_of_shards  }}
+index.number_of_replicas: {{ elasticsearch_index.number_of_replicas }}
+
+path.conf: {{ elasticsearch_path.conf }}
+path.data: {{ elasticsearch_path.data }}
+path.work: {{ elasticsearch_path.work }}
+path.logs: {{ elasticsearch_path.logs }}
+path.plugins: {{ elasticsearch_path.plugins }}
+plugin.mandatory: {{ elasticsearch_node.mandatory_plugins }}
+
+{% if elasticsearch_bootstrap.mlockall %}
+bootstrap.mlockall: true
+{% else %}
+bootstrap.mlockall: false
+{% endif %}
+
+network.host: "{{ elasticsearch_network.host }}"
+http.host: "{{ elasticsearch_network.http_host }}"
+
+discovery.zen.minimum_master_nodes: {{ elasticsearch_node.minimum_masters }}
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: [{% 
+	for host in groups['elasticsearch'] 
+		%} "{{ hostvars[host]['ansible_'+elasticsearch_network.unicast_interface]['ipv4']['address'] }}"{% if not loop.last %}, {% endif %} {% 
+	endfor 
+%}]
