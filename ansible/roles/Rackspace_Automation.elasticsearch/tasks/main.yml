@@ -38,7 +38,7 @@
   when: (elasticsearch_plugins is defined)
 
 # just verify it's running, enabled, started, but don't restart
-- name: ensure elasticsearch service is running
-  service: name=elasticsearch enabled=yes
-  notify: verify elasticsearch
+#- name: ensure elasticsearch service is running
+#  service: name=elasticsearch enabled=yes
+#  notify: verify elasticsearch
 
