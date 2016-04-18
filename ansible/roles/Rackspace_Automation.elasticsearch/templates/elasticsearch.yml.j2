@@ -5,6 +5,8 @@ node.name: "{{ elasticsearch_node.name }}"
 node.master: true # YAML true is 'True', we need 'true' (what a pain)
 {% else %}
 node.master: false
+{% endif %}
+
 
 {% if elasticsearch_node.data %} 
 node.data: true
