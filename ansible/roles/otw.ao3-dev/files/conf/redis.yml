@@ -14,3 +14,7 @@ redis_rollout:
   test: 127.0.0.1:6381
   development: 127.0.0.1:6381
   production: redis.ao3.org:6379
+redis_autocomplete:
+  test: 127.0.0.1:6381
+  development: 127.0.0.1:6381
+  production: redis.ao3.org:6379
